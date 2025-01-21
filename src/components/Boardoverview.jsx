@@ -43,14 +43,14 @@ function BoardOverview() {
       
         const user = session.user;
       
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from("Boards")
           .insert([{ board_name: boardName, board_owner: user.id }]);
       
         if (error) {
           setError(error.message);
         } else {
-          setBoards((prev) => [...prev, data[0]]);
+          getBoards();
           setBoardName("");
         }
       };
