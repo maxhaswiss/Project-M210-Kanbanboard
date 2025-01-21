@@ -2,67 +2,91 @@ import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 
 function TaskDisplay({ boardId }) {
-    const [tasks, setTasks] = useState([]);
-    const [taskName, setTaskName] = useState("");
-    const [taskDescription, setTaskDescription] = useState("")
-    const [taskStatus, setTaskStatus] = useState("to-do")
-    const [error, setError] = useState("")
+  const [tasks, setTasks] = useState([]);
+  const [taskName, setTaskName] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [taskStatus, setTaskStatus] = useState("to-do");
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-        if (boardId) {
-            getTasks();
-        }
-    }, [boardId]);
+  useEffect(() => {
+    if (boardId) {
+      getTasks();
+    }
+  }, [boardId]);
 
-    const getTasks = async () => {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  const getTasks = async () => {
+    const { data, error } = await supabase
+      .from("tasks")
+      .select("*")
+      .eq("board_id", boardId);
 
-        if (sessionError || !session) {
-            setError("User is not logged in")
-            setTasks([]);
-            return;
-        }
-        const {data, error} = await supabase.from("tasks").select("*").eq("board_id", boardId);
+    if (error) {
+      setError(error.message);
+    } else {
+      setTasks(data);
+    }
+  };
 
-        if (error) {
-            setError(error.message);
-        }else {
-            setTasks(data);
-        }
-    };
+  const addTask = async () => {
+    if (!taskName.trim()) {
+      setError("Task name is required");
+      return;
+    }
 
-    const addTask = async () => {
-        if (!taskName.trim()) {
-            setError("Task name is required");
-            return;
-        }
-        const { error } = await supabase.from("tasks").insert([
-            {
-                task_title: taskName,
-                task_description: taskDescription,
-                task_status: taskStatus,
-                board_id: boardId,
-            },
-        ]);
-        if (error) {
-            setError(error.message);
-        }else {
-            setTaskName("");
-            setTaskDescription("");
-            setTaskStatus("to-do");
-            getTasks();
-        }
-    };
+    const { error } = await supabase.from("tasks").insert([
+      {
+        task_title: taskName,
+        task_description: taskDescription,
+        task_status: taskStatus,
+        board_id: boardId,
+      },
+    ]);
 
-    const groupedTasks = {
-        "to-do": tasks.filter((task) => task.task_status === "to-do"),
-        "in-progress": tasks.filter((task) => task.task_status === "in-progress"),
-        "done": tasks.filter((task) => task.task_status === "done"),
-      };
+    if (error) {
+      setError(error.message);
+    } else {
+      setTaskName("");
+      setTaskDescription("");
+      setTaskStatus("to-do");
+      getTasks();
+    }
+  };
 
-      return (
-<div>
-      <h2>Tasks for Board</h2>
+  const updateTaskStatus = async (taskId, newStatus) => {
+    const { error } = await supabase
+      .from("tasks")
+      .update({ task_status: newStatus })
+      .eq("task_id", taskId);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      getTasks();
+    }
+  };
+
+  const moveTask = (taskId, currentStatus, direction) => {
+    const statuses = ["to-do", "in-progress", "done"];
+    const currentIndex = statuses.indexOf(currentStatus);
+
+    if (direction === "left" && currentIndex > 0) {
+      updateTaskStatus(taskId, statuses[currentIndex - 1]);
+    }
+
+    if (direction === "right" && currentIndex < statuses.length - 1) {
+      updateTaskStatus(taskId, statuses[currentIndex + 1]);
+    }
+  };
+
+  const groupedTasks = {
+    "to-do": tasks.filter((task) => task.task_status === "to-do"),
+    "in-progress": tasks.filter((task) => task.task_status === "in-progress"),
+    "done": tasks.filter((task) => task.task_status === "done"),
+  };
+
+  return (
+    <div>
+      <h2>Tasks</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <div>
@@ -94,11 +118,42 @@ function TaskDisplay({ boardId }) {
         {Object.keys(groupedTasks).map((status) => (
           <div key={status}>
             <h3>{status.toUpperCase()}</h3>
-            <ul>
+            <ul style={{ listStyle: "none", padding: 0 }}>
               {groupedTasks[status].map((task) => (
                 <li key={task.task_id}>
-                  <strong>{task.task_title}</strong>
-                  <p>{task.task_description}</p>
+                  <div
+                    style={{
+                        padding: "15px",
+                        marginBottom: "10px",
+                        backgroundColor: "#333", 
+                        color: "#fff", 
+                        border: "1px solid #444", 
+                        borderRadius: "8px", 
+                        maxWidth: "300px",
+                        maxHeight: "150px",
+                        overflow: "auto",
+                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)", 
+                    }}
+                  >
+                    <strong>{task.task_title}</strong>
+                    <p>{task.task_description}</p>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <button
+                        onClick={() => moveTask(task.task_id, task.task_status, "left")}
+                        disabled={task.task_status === "to-do"}
+                        style={{ cursor: task.task_status === "to-do" ? "not-allowed" : "pointer" }}
+                      >
+                        ←
+                      </button>
+                      <button
+                        onClick={() => moveTask(task.task_id, task.task_status, "right")}
+                        disabled={task.task_status === "done"}
+                        style={{ cursor: task.task_status === "done" ? "not-allowed" : "pointer" }}
+                      >
+                        →
+                      </button>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -106,7 +161,7 @@ function TaskDisplay({ boardId }) {
         ))}
       </div>
     </div>
-      )
+  );
 }
 
 export default TaskDisplay;
