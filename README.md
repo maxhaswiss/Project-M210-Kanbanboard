@@ -76,3 +76,20 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
 - The user cannot see or modify boards created by other users.  
 
 ---
+
+## Work plan
+
+| Step                               | Description                                                                 | Estimated Time  |
+|------------------------------------|------------------------------------------------------------------------------|-----------------|
+| **1. Project Setup**               | - Create Supabase project<br>- Initialize React app<br>- Integrate Supabase | 30 Min          |
+| **2. Set Up GitHub Actions**       | - Configure GitHub Actions for React to automatically test functionality    | 30 Min          |
+| **3. Data Model**                  | - Create tables for `Boards` and `Tasks` in Supabase<br>- Define relationships and document the architecture | 45 Min         |
+| **4. Authentication**              | - Set up Supabase Auth<br>- Implement login/sign-up functionality for users | 30 Min          |
+| **5. Create Boards**               | - Create UI for the board overview<br>- Implement functionality to create boards<br>- Save boards to the database | 1 Hr           |
+| **6. Display Tasks**               | - Create UI for the board with columns "To-Do," "In Progress," and "Done"<br>- Load and display tasks from the database | 1 Hr           |
+| **7. Add Tasks**                   | - Implement functionality to add new tasks<br>- Create UI with input fields for title and description<br>- Save tasks to the database | 1 Hr           |
+| **8. Move Tasks**                  | - Implement drag-and-drop functionality<br>- Update task status and position in the database | 1 Hr           |
+| **9. Edit Tasks**                  | - Add an edit mode for tasks<br>- Save changes to the database              | 45 Min          |
+| **10. Delete Tasks**               | - Implement a "Delete" button<br>- Remove tasks from the database           | 30 Min          |
+| **11. Testing and Debugging**      | - Test functionality<br>- Fix any errors                                   | 1 Hr            |
+| **12. Document Deployment**        | - Document deployment options                                              | 30 Min          |
