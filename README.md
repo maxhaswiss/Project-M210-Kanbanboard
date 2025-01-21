@@ -136,11 +136,11 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
   - Add an edit mode for tasks  
   - Save changes to the database  
 
-- [ ] **10. Delete Tasks**  
+- [x] **10. Delete Tasks**  
   - Implement a "Delete" button  
   - Remove tasks from the database  
 
-- [ ] **11. Testing and Debugging**  
+- [x] **11. Testing and Debugging**  
   - Test functionality  
   - Fix any errors  
 
