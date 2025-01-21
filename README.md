@@ -1,5 +1,111 @@
 # Project-M210-Kanbanboard
 
+**Deployment Instructions for End Users**
+
+This guide will help you deploy the Kanban Board application to your environment. Follow these steps to host and run the application.
+
+---
+
+**1. Prerequisites**
+
+Before deploying the Kanban Board application, ensure the following:
+- Node.js and npm are installed.
+- A Supabase project is set up, and the API URL and Key are available.
+- A hosting solution is ready (e.g., Vercel, Netlify, or a custom server).
+
+---
+
+**2. Clone the Repository**
+
+1. Open a terminal on your machine.
+2. Run the following command to clone the repository:
+   `git clone https://github.com/maxhaswiss/Project-M210-Kanbanboard.git' or 'git clone git@github.com:maxhaswiss/Project-M210-Kanbanboard.git'
+
+---
+
+**3. Configure Environment Variables**
+
+1. Create a `.env` file in the project root directory by running:
+   `touch .env`
+   or just create one with your gui
+2. Add the following variables to the `.env` file:
+   ```
+   VITE_API=<Your Supabase API URL>
+   VITE_KEY=<Your Supabase Key>
+   ```
+   Replace `<Your Supabase API URL>` and `<Your Supabase Key>` with your Supabase credentials.
+
+---
+
+**4. Install Dependencies**
+
+Run the following command to install the required packages:
+`npm install`
+
+---
+
+**5. Build the Application**
+
+Create a production-ready build of the application by running:
+`npm run build`
+
+This will generate a `build` directory containing the files necessary for deployment.
+
+---
+
+**6. Deploy the Application**
+
+**Option 1: Deploy with Vercel**
+1. Install the Vercel CLI using: `npm install -g vercel`
+2. Deploy the application by running: `vercel`
+3. Follow the prompts to link the project to your Vercel account and configure the deployment.
+4. Add your environment variables (`VITE_API` and `VITE_KEY`) in the Vercel dashboard under **Settings → Environment Variables**.
+5. Your app will be live at the Vercel-provided URL.
+
+**Option 2: Deploy with Netlify**
+1. Install the Netlify CLI using: `npm install -g netlify-cli`
+2. Build the application: `npm run build`
+3. Deploy the application: `netlify deploy`
+4. When prompted, specify the `build` directory as the deployment folder.
+5. Add environment variables (`VITE_API` and `VITE_KEY`) in the Netlify dashboard under **Site Settings → Environment Variables**.
+6. Your app will be live at the Netlify-provided URL.
+
+**Option 3: Deploy on a Custom Server**
+1. Transfer the contents of the `build` directory to your server (e.g., using SSH or FTP).
+2. Set up a web server like Nginx or Apache to serve the files. For Nginx, use the following configuration:
+   ```
+   server {
+       listen 80;
+       server_name your-domain.com;
+
+       root /path/to/build;
+       index index.html;
+
+       location / {
+           try_files $uri /index.html;
+       }
+   }
+   ```
+3. Restart your web server to apply the changes using: `sudo systemctl restart nginx`
+4. Add your environment variables (`VITE_API` and `VITE_KEY`) to the server or use `.env` files if supported.
+
+---
+
+**7. Test Your Deployment**
+
+1. Visit your app's URL (e.g., provided by Vercel or Netlify, or your server domain).
+2. Ensure the app loads correctly and connects to Supabase for authentication and data.
+
+---
+
+**8. Troubleshooting**
+
+- **Environment Variables Missing**: Ensure `VITE_API` and `VITE_KEY` are correctly set.
+- **Build Errors**: Ensure all dependencies are installed with `npm install`.
+- **Database Issues**: Verify your Supabase project and table structure match the application requirements.
+
+Your Kanban Board application is now deployed and ready to use! 🎉
+
 ## Elevator Pitch
 I want to create a sleek Kanban board that is user-friendly and organizes tasks into Kanban columns like 'To-Do,' 'In Progress,' and 'Done.' With Supabase as the backend, it provides a simple way to create boards and manage tasks efficiently
 
@@ -144,8 +250,15 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
   - Test functionality  
   - Fix any errors  
 
-- [ ] **12. Deployment Documentation**  
+- [x] **12. Deployment Documentation**  
   - Document deployment options  
 
-## Entity Relationship Diagramm
+- [x] **13. Critcal review**  
+  - which goals were accomplished or not
+
+
+## Entity Relationsithip Diagramm
 ![Entity Relationship Diagramm](/images/ERDiagramm.png)
+
+## Project review
+Overall i am satisfied with my project my requirements were all met except the drag and drop. Initially i wanted to use dnd but i decided to not do it because it was too complex for the little time i've had left. the other thing was moving the tasks between the lines and the status that i did not do also because of time reasons. But these are all things i can do in the future.
