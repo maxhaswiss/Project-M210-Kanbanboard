@@ -93,3 +93,56 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
 | **10. Delete Tasks**               | - Implement a "Delete" button<br>- Remove tasks from the database           | 30 Min          |
 | **11. Testing and Debugging**      | - Test functionality<br>- Fix any errors                                   | 1 Hr            |
 | **12. Document Deployment**        | - Document deployment options                                              | 30 Min          |
+
+## Progress Checklist
+
+- [x] **1. Project Setup**  
+  - Supabase project created  
+  - React app initialized  
+  - Supabase integrated  
+
+- [x] **2. GitHub Actions Setup**  
+  - CI workflow file created in `.github/workflows`  
+  - Workflow tested and confirmed working for Node.js builds  
+
+- [ ] **3. Data Model**  
+  - Create tables for `Boards` and `Tasks` in Supabase  
+  - Define relationships between tables  
+  - Document the architecture  
+
+- [ ] **4. Authentication**  
+  - Set up Supabase Auth  
+  - Implement login/sign-up functionality for users  
+
+- [ ] **5. Create Boards**  
+  - Create UI for board overview  
+  - Implement functionality to create boards  
+  - Save boards to the database  
+
+- [ ] **6. Display Tasks**  
+  - Create UI for the board with columns "To-Do," "In Progress," and "Done"  
+  - Load and display tasks from the database  
+
+- [ ] **7. Add Tasks**  
+  - Implement functionality to add new tasks  
+  - Create UI with input fields for title and description  
+  - Save tasks to the database  
+
+- [ ] **8. Move Tasks**  
+  - Implement drag-and-drop functionality  
+  - Update task status and position in the database  
+
+- [ ] **9. Edit Tasks**  
+  - Add an edit mode for tasks  
+  - Save changes to the database  
+
+- [ ] **10. Delete Tasks**  
+  - Implement a "Delete" button  
+  - Remove tasks from the database  
+
+- [ ] **11. Testing and Debugging**  
+  - Test functionality  
+  - Fix any errors  
+
+- [ ] **12. Deployment Documentation**  
+  - Document deployment options  
