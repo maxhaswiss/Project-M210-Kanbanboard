@@ -146,3 +146,6 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
 
 - [ ] **12. Deployment Documentation**  
   - Document deployment options  
+
+## Entity Relationship Diagramm
+![Entity Relationship Diagramm](/images/ERDiagramm.png)
