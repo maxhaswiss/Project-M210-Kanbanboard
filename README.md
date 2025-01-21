@@ -105,12 +105,12 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
   - CI workflow file created in `.github/workflows`  
   - Workflow tested and confirmed working for Node.js builds  
 
-- [ ] **3. Data Model**  
+- [x] **3. Data Model**  
   - Create tables for `Boards` and `Tasks` in Supabase  
   - Define relationships between tables  
   - Document the architecture  
 
-- [ ] **4. Authentication**  
+- [x] **4. Authentication**  
   - Set up Supabase Auth  
   - Implement login/sign-up functionality for users  
 
