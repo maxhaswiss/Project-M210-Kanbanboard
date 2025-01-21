@@ -123,7 +123,7 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
   - Create UI for the board with columns "To-Do," "In Progress," and "Done"  
   - Load and display tasks from the database  
 
-- [ ] **7. Add Tasks**  
+- [x] **7. Add Tasks**  
   - Implement functionality to add new tasks  
   - Create UI with input fields for title and description  
   - Save tasks to the database  
