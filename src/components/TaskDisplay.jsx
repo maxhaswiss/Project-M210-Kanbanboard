@@ -26,6 +26,7 @@ function TaskDisplay({ boardId }) {
       setTasks(data);
     }
   };
+
   const addTask = async () => {
     if (!taskName.trim()) {
       setError("Task name is required");
@@ -48,7 +49,7 @@ function TaskDisplay({ boardId }) {
       getTasks();
     }
   };
-  
+
   const updateTask = async (taskId) => {
     const { error } = await supabase
       .from("tasks")
@@ -66,11 +67,13 @@ function TaskDisplay({ boardId }) {
       getTasks();
     }
   };
+
   const startEditing = (task) => {
     setEditTaskId(task.task_id);
     setTaskName(task.task_title);
     setTaskDescription(task.task_description);
   };
+
   const cancelEditing = () => {
     setEditTaskId(null);
     setTaskName("");
@@ -99,6 +102,15 @@ function TaskDisplay({ boardId }) {
 
     if (direction === "right" && currentIndex < statuses.length - 1) {
       updateTaskStatus(taskId, statuses[currentIndex + 1]);
+    }
+  };
+
+  const deleteTask = async (taskId) => {
+    const { error } = await supabase.from("tasks").delete().eq("task_id", taskId);
+    if (error) {
+      setError(error.message);
+    } else {
+      getTasks();
     }
   };
 
@@ -185,6 +197,12 @@ function TaskDisplay({ boardId }) {
                         →
                       </button>
                       <button onClick={() => startEditing(task)}>Edit</button>
+                      <button
+                        onClick={() => deleteTask(task.task_id)}
+                        style={{ backgroundColor: "#FF4D4D", color: "#fff", borderRadius: "4px" }}
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
                 </li>
