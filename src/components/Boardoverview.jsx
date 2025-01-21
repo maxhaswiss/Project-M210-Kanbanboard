@@ -1,9 +1,11 @@
 import {useEffect, useState } from "react";
 import { supabase } from '../supabaseClient'
+import TaskDisplay from "./TaskDisplay";
 
 function BoardOverview() {
     const [boards, setBoards] = useState([]);
     const [boardName, setBoardName] = useState("");
+    const [selectedBoard, setSelectedBoard] = useState(null);
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -57,23 +59,31 @@ function BoardOverview() {
       
  return (
     <div>
-      <h2>Your Boards</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <h2>Your Boards</h2>
+    {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <ul>
-        {boards.map((board) => (
-          <li key={board.board_id}>{board.board_name}</li>
-        ))}
-      </ul>
+    <ul>
+      {boards.map((board) => (
+        <li key={board.board_id}>
+          <button onClick={() => setSelectedBoard(board.board_id)}>
+            {board.board_name}
+          </button>
+        </li>
+      ))}
+    </ul>
 
-      <input
-        type="text"
-        placeholder="New Board Name"
-        value={boardName}
-        onChange={(e) => setBoardName(e.target.value)}
-      />
-      <button onClick={createBoard}>Create Board</button>
-    </div>
+    <input
+      type="text"
+      placeholder="New Board Name"
+      value={boardName}
+      onChange={(e) => setBoardName(e.target.value)}
+    />
+    <button onClick={createBoard} disabled={!boardName.trim()}>
+      Create Board
+    </button>
+
+    {selectedBoard && <TaskDisplay boardId={selectedBoard} />}
+  </div>
   );
 } 
 
