@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import BoardOverview from "./components/Boardoverview";
+import { supabase } from "./supabaseClient";
 
-const API = import.meta.env.VITE_API;
-const KEY = import.meta.env.VITE_KEY;
-
-const supabase = createClient(API, KEY);
 
 function App() {
   const [session, setSession] = useState(null);
@@ -36,7 +33,8 @@ function App() {
         />
       ) : (
         <div>
-          <p>Welcome, you are logged in!</p>
+          <h1> Kanban Board </h1>
+          <BoardOverview />
           <button onClick={() => supabase.auth.signOut()}>Sign Out</button>
         </div>
       )}
