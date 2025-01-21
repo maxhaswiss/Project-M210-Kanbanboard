@@ -114,7 +114,7 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
   - Set up Supabase Auth  
   - Implement login/sign-up functionality for users  
 
-- [ ] **5. Create Boards**  
+- [x] **5. Create Boards**  
   - Create UI for board overview  
   - Implement functionality to create boards  
   - Save boards to the database  
