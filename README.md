@@ -132,7 +132,7 @@ I want to create a sleek Kanban board that is user-friendly and organizes tasks 
   - Implement moving task functionality  
   - Update task status and position in the database  
 
-- [ ] **9. Edit Tasks**  
+- [x] **9. Edit Tasks**  
   - Add an edit mode for tasks  
   - Save changes to the database  
 
