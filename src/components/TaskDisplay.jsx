@@ -7,6 +7,7 @@ function TaskDisplay({ boardId }) {
   const [taskDescription, setTaskDescription] = useState("");
   const [taskStatus, setTaskStatus] = useState("to-do");
   const [error, setError] = useState("");
+  const [editTaskId, setEditTaskId] = useState(null);
 
   useEffect(() => {
     if (boardId) {
@@ -19,20 +20,17 @@ function TaskDisplay({ boardId }) {
       .from("tasks")
       .select("*")
       .eq("board_id", boardId);
-
     if (error) {
       setError(error.message);
     } else {
       setTasks(data);
     }
   };
-
   const addTask = async () => {
     if (!taskName.trim()) {
       setError("Task name is required");
       return;
     }
-
     const { error } = await supabase.from("tasks").insert([
       {
         task_title: taskName,
@@ -41,7 +39,6 @@ function TaskDisplay({ boardId }) {
         board_id: boardId,
       },
     ]);
-
     if (error) {
       setError(error.message);
     } else {
@@ -51,13 +48,40 @@ function TaskDisplay({ boardId }) {
       getTasks();
     }
   };
+  
+  const updateTask = async (taskId) => {
+    const { error } = await supabase
+      .from("tasks")
+      .update({
+        task_title: taskName,
+        task_description: taskDescription,
+      })
+      .eq("task_id", taskId);
+    if (error) {
+      setError(error.message);
+    } else {
+      setEditTaskId(null);
+      setTaskName("");
+      setTaskDescription("");
+      getTasks();
+    }
+  };
+  const startEditing = (task) => {
+    setEditTaskId(task.task_id);
+    setTaskName(task.task_title);
+    setTaskDescription(task.task_description);
+  };
+  const cancelEditing = () => {
+    setEditTaskId(null);
+    setTaskName("");
+    setTaskDescription("");
+  };
 
   const updateTaskStatus = async (taskId, newStatus) => {
     const { error } = await supabase
       .from("tasks")
       .update({ task_status: newStatus })
       .eq("task_id", taskId);
-
     if (error) {
       setError(error.message);
     } else {
@@ -104,14 +128,22 @@ function TaskDisplay({ boardId }) {
         <select
           value={taskStatus}
           onChange={(e) => setTaskStatus(e.target.value)}
+          disabled={editTaskId !== null}
         >
           <option value="to-do">To-Do</option>
           <option value="in-progress">In Progress</option>
           <option value="done">Done</option>
         </select>
-        <button onClick={addTask} disabled={!taskName.trim()}>
-          Add Task
-        </button>
+        {editTaskId ? (
+          <>
+            <button onClick={() => updateTask(editTaskId)}>Save</button>
+            <button onClick={cancelEditing}>Cancel</button>
+          </>
+        ) : (
+          <button onClick={addTask} disabled={!taskName.trim()}>
+            Add Task
+          </button>
+        )}
       </div>
 
       <div style={{ display: "flex", gap: "20px" }}>
@@ -123,16 +155,16 @@ function TaskDisplay({ boardId }) {
                 <li key={task.task_id}>
                   <div
                     style={{
-                        padding: "15px",
-                        marginBottom: "10px",
-                        backgroundColor: "#333", 
-                        color: "#fff", 
-                        border: "1px solid #444", 
-                        borderRadius: "8px", 
-                        maxWidth: "300px",
-                        maxHeight: "150px",
-                        overflow: "auto",
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)", 
+                      padding: "15px",
+                      marginBottom: "10px",
+                      backgroundColor: "#333",
+                      color: "#fff",
+                      border: "1px solid #444",
+                      borderRadius: "8px",
+                      maxWidth: "300px",
+                      maxHeight: "150px",
+                      overflow: "auto",
+                      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
                     }}
                   >
                     <strong>{task.task_title}</strong>
@@ -152,6 +184,7 @@ function TaskDisplay({ boardId }) {
                       >
                         →
                       </button>
+                      <button onClick={() => startEditing(task)}>Edit</button>
                     </div>
                   </div>
                 </li>
